@@ -5,6 +5,10 @@ export default function Home() {
   const [todos,setTodos]= useState<any[]>([]);
   const [todo,setTodo]= useState([]);
 
+  const [id,setId]= useState("");
+  const [title,setTitle]= useState("");
+
+
   useEffect(()=>{
     async function fetchData(){
       const res= await fetch("/api/todos");
@@ -38,13 +42,27 @@ export default function Home() {
   }
 
   const ReplaceHandler= async ()=>{
-
   const res = await fetch("/api/todos",{
   method:"PUT"
   });
-
     const data = await res.json();
     setTodos(data.data);
+  }
+
+  const EditHandler= async()=>{
+
+    const res = await fetch(`/api/todos/${id}`, {
+      method:"PATCH",
+      body:JSON.stringify(title),
+      headers:{"content-type":"application/json"}
+    });
+
+    const data = await res.json();
+    console.log("get from api" , title);
+    console.log("get from api" , data);
+
+    setTodos(data.data);
+
   }
 
   return (
@@ -67,8 +85,12 @@ export default function Home() {
 <br />
 <button onClick={ReplaceHandler}>Replace All Todo</button>
 
- </>
+<br />
+<input placeholder="Id" value={id} onChange={ e=>setId(e.target.value) }></input> 
+<input placeholder="Title" value={title} onChange={ e=> setTitle(e.target.value) }></input> 
+<button onClick={EditHandler}>Edit Todo</button>
 
+ </>
   )
 
 
@@ -76,4 +98,5 @@ export default function Home() {
     //console.log("todo",e.target.value)
     return e.target.value;
   }
+
 }
