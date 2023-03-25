@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 export default function Home() {
 
   const [todos,setTodos]= useState<any[]>([]);
+  const [todo,setTodo]= useState([]);
 
   useEffect(()=>{
     async function fetchData(){
@@ -12,18 +13,40 @@ export default function Home() {
       setTodos(data);
     }
     fetchData();
-  },[])
+  },[]);
+
+  const clickHandler = async ()=>{
+
+    const res = fetch("/api/todos",{
+      method:"POST",
+      body:JSON.stringify({todo}),
+      headers:{"content-type":"application/json"}
+    });
+
+    const data = await(await res).json();
+    console.log(data);
+  }
 
   return (
-<>
+ <>
   <h1>
   APi Routes HomePage
   </h1>
+
   <ul>
-     {todos.map((t)=><li key={t.id}> 5365 {t.title}</li>)} 
+     {todos.map((t)=><li key={t.id}>  {t.title}</li>)} 
   </ul>
-</>
+
+  <input value={todo} onChange={ e=> setTodo(newFunction(e)) }></input>
+  <button onClick={clickHandler}>Create new Todo</button>
+
+ </>
 
   )
 
+
+  function newFunction(e:any) {
+    //console.log("todo",e.target.value)
+    return e.target.value;
+  }
 }
