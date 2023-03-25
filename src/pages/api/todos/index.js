@@ -16,5 +16,7 @@ export default function handler(req,res){
         message: "success",
         data: newTodo
      })
+    }else if(req.method==="DELETE"){
+     res.status(200).json({message:"alltodos deleted" , data:[]})
     }
 }

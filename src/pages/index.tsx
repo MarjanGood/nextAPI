@@ -27,6 +27,15 @@ export default function Home() {
     console.log(data);
   }
 
+
+  const DeleteHandler=async()=>{
+    const res = await fetch("/api/todos",{
+      method:"DELETE"
+    });
+
+    const data = await res.json();
+    setTodos(data.data);
+  }
   return (
  <>
   <h1>
@@ -34,11 +43,14 @@ export default function Home() {
   </h1>
 
   <ul>
-     {todos.map((t)=><li key={t.id}>  {t.title}</li>)} 
+     {todos.map((t)=><li key={t.id}>{t.title}</li>)} 
   </ul>
 
   <input value={todo} onChange={ e=> setTodo(newFunction(e)) }></input>
   <button onClick={clickHandler}>Create new Todo</button>
+
+<br />
+<button onClick={DeleteHandler}>Delete All Todo</button>
 
  </>
 
