@@ -36,6 +36,17 @@ export default function Home() {
     const data = await res.json();
     setTodos(data.data);
   }
+
+  const ReplaceHandler= async ()=>{
+
+  const res = await fetch("/api/todos",{
+  method:"PUT"
+  });
+
+    const data = await res.json();
+    setTodos(data.data);
+  }
+
   return (
  <>
   <h1>
@@ -51,6 +62,10 @@ export default function Home() {
 
 <br />
 <button onClick={DeleteHandler}>Delete All Todo</button>
+
+
+<br />
+<button onClick={ReplaceHandler}>Replace All Todo</button>
 
  </>
 

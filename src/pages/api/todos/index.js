@@ -18,5 +18,10 @@ export default function handler(req,res){
      })
     }else if(req.method==="DELETE"){
      res.status(200).json({message:"alltodos deleted" , data:[]})
-    }
+    }else if(req.method==="PUT"){
+        res.status(200).json({
+        message:"alltodos deleted",
+        data:[{id:8, title:"todo 8"},{id:9, title:"todo 9"}]
+    })
+       }
 }
