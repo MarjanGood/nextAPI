@@ -93,7 +93,6 @@ export default function Home() {
  </>
   )
 
-
   function newFunction(e:any) {
     //console.log("todo",e.target.value)
     return e.target.value;
