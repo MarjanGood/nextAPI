@@ -16,15 +16,19 @@ export default async function handler(req,res){
     const name = req.body.name;
     console.log(name);
 
+    // check validations
     if(!name || name.length <= 3){
         res.status(422).json({status:"failed" , message:"Invalid Data"});
         return;
     }
 
-    //connect to db
-    //mongoose.connect("");
+    // const user = new User({name});
+    // await user.save();
 
-    res.status(201).json({status:"success", message:"Data Created" , data:{name:name}});
+    const user = await User.create({ name });
+    console.log(user);
+
+    res.status(201).json({status:"success", message:"Data Created",data:{name:name}});
 
    }
 
