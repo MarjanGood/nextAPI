@@ -8,8 +8,11 @@ export default function Home(){
     const [edit , setEdit]= useState("");
     const [email , setEmail]= useState("");
 
-    useEffect(()=>{
+    const updateData=()=>{
         fetch("/api").then(res=>res.json()).then(data=>setUsers(data.data))
+    }
+    useEffect(()=>{
+        updateData();
     },[]);
 
     const postHandler = async () =>{
@@ -44,9 +47,17 @@ export default function Home(){
             body:JSON.stringify({email}),
             headers:{"Content-Type":"application/json"}
         })
-
         const data = await res.json();
         setEdit("");
+        console.log(data);
+    }
+
+    const deleteHandler = async()=>{
+        const res = await fetch(`/api/${id}`,{
+            method:"DELETE",
+        })
+        const data = await res.json();
+        updateData();
         console.log(data);
     }
 
@@ -66,15 +77,17 @@ export default function Home(){
                     {users.map(u=><li key={u.id} onClick={()=>detailsHandler(user._id)}>{u.name}</li>)}
                 </ul>
                 <button onClick={()=>editHandler(user)}>Edit</button>
-          {
-           edit && edit===user._id ? (
+                 {
+                    edit && edit===user._id ? (
            <div>
            <input value={email} onChange={e=> setEmail(e.target.value)}></input>
            <button onClick={()=>saveHandler(user._id)}></button>
            </div>
-           ) : null
-          }
+                   ) : null
+                 }
             </div>
+
+            <button onClick={deleteHandler}>Delete</button>
         </div>
     )
 }
