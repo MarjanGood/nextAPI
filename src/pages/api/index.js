@@ -13,7 +13,8 @@ export default async function handler(req,res){
         await connectDB();
     }catch(e){
       console.log(e);
-      res.status(500).json({status:"failed",message:"Error in connecting to database"})
+      res.status(500).json({status:"failed",message:"Error in connecting to database"});
+      return;
     }
 
    if(req.method=== "POST"){
@@ -50,9 +51,20 @@ export default async function handler(req,res){
         res.status(500).json({status:"failed",message:"Error in storing data in database"})
     }
 
-
     res.status(201).json({status:"success", message:"Data Created",data:{name:name}});
+   }
+   else if(req.method==="GET"){
+    try{
+    const users=await User.find();
+    res.status(200).json({status:"success", data: users})
+   }catch(e){
+
+    res.status(500).json({
+        status:"failed",
+        message:"error in storing data in database",
+    });
 
    }
+}
 
 }
